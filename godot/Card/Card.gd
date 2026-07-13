@@ -23,8 +23,52 @@ signal animation_battle_ended
 signal animation_hide_ended
 
 var hover_tween: Tween
+var glow_light: PointLight2D
+var battle_particles: GPUParticles2D
+
+func _create_glow_texture() -> GradientTexture2D:
+	var grad = Gradient.new()
+	grad.add_point(0.0, Color(1, 1, 1, 1))
+	grad.add_point(1.0, Color(1, 1, 1, 0))
+	var tex = GradientTexture2D.new()
+	tex.gradient = grad
+	tex.fill = GradientTexture2D.FILL_RADIAL
+	tex.fill_from = Vector2(0.5, 0.5)
+	tex.fill_to = Vector2(1, 0.5)
+	tex.width = 256
+	tex.height = 256
+	return tex
+
+func _create_particles_material() -> ParticleProcessMaterial:
+	var mat = ParticleProcessMaterial.new()
+	mat.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
+	mat.emission_box_extents = Vector3(50, 80, 1)
+	mat.gravity = Vector3(0, -200, 0)
+	mat.initial_velocity_min = 50
+	mat.initial_velocity_max = 100
+	mat.scale_min = 2.0
+	mat.scale_max = 4.0
+	return mat
 
 func _ready():
+	# Inject PointLight2D
+	glow_light = PointLight2D.new()
+	glow_light.texture = _create_glow_texture()
+	glow_light.energy = 0.0
+	glow_light.color = Color(0.8, 0.9, 1.0)
+	glow_light.blend_mode = Light2D.BLEND_MODE_ADD
+	add_child(glow_light)
+	
+	# Inject GPUParticles2D
+	battle_particles = GPUParticles2D.new()
+	battle_particles.process_material = _create_particles_material()
+	battle_particles.emitting = false
+	battle_particles.one_shot = true
+	battle_particles.explosiveness = 0.8
+	battle_particles.amount = 30
+	battle_particles.lifetime = 0.6
+	add_child(battle_particles)
+	
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
@@ -35,6 +79,7 @@ func _on_mouse_entered():
 		hover_tween = create_tween().set_parallel(true)
 		hover_tween.tween_property(self, "scale", Vector2(1.1, 1.1), 0.1).set_trans(Tween.TRANS_SINE)
 		hover_tween.tween_property(self, "rotation_degrees", randf_range(-5.0, 5.0), 0.1)
+		hover_tween.tween_property(glow_light, "energy", 1.5, 0.2)
 
 func _on_mouse_exited():
 	if get_parent() and get_parent().get_parent() and get_parent().get_parent().name == "MyCardsLocation":
@@ -42,6 +87,7 @@ func _on_mouse_exited():
 		hover_tween = create_tween().set_parallel(true)
 		hover_tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.2).set_trans(Tween.TRANS_SINE)
 		hover_tween.tween_property(self, "rotation_degrees", 0.0, 0.2)
+		hover_tween.tween_property(glow_light, "energy", 0.0, 0.3)
 
 func flip():
 	$Anim.play("flip")
@@ -87,6 +133,11 @@ func animateBattle(otherCard:Card):
 	
 	otherCard.animateHide()	
 	setElementTexture()
+	
+	# Emit particles matching element color
+	battle_particles.modulate = $top.self_modulate
+	battle_particles.emitting = true
+	
 	if not side:
 		$Anim.play("battle")
 		await $Anim.animation_finished;

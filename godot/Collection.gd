@@ -61,13 +61,26 @@ func _populate_grid():
 		child.queue_free()
 		
 	var unlocked = SaveService.get_unlocked_cards()
-	for card_id in unlocked:
-		var tex_rect = TextureRect.new()
-		tex_rect.texture = load("res://Card/" + card_id + ".png")
-		tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tex_rect.custom_minimum_size = Vector2(card_size, card_size * 1.4)
-		grid.add_child(tex_rect)
+	for card_data in unlocked:
+		var c = preload("res://Card/Card.tscn").instantiate()
+		c.cardType = card_data["t"]
+		c.cardValue = card_data["v"]
+		
+		# We must wrap it in a Control node to fit the GridContainer properly
+		var wrapper = Control.new()
+		wrapper.custom_minimum_size = Vector2(160, 240)
+		
+		c.position = Vector2(80, 120) # Center inside wrapper
+		c.scale = Vector2(0.8, 0.8) # Scale down for collection
+		c.initialize()
+		
+		# Disable input on the collection card
+		c.set_process_input(false)
+		if c.has_node("MoveShape"):
+			c.get_node("MoveShape").disabled = true
+			
+		wrapper.add_child(c)
+		grid.add_child(wrapper)
 
 func _on_buy_pressed():
 	if SaveService.get_coins() >= 100:
@@ -76,17 +89,31 @@ func _on_buy_pressed():
 		AudioManager.play_victory()
 		
 		# Pick random card to unlock
-		var unlocked = SaveService.get_unlocked_cards()
-		var locked = []
-		for c in ALL_CARDS:
-			if not c in unlocked:
-				locked.append(c)
+		# Types: A=0, E=1, F=2, W=3, X=4
+		var t = randi() % 5
+		var v = (randi() % 9) + 2 if t < 4 else 10 # 2 to 10 for normal, 10 for X
 		
-		if locked.size() > 0:
-			var new_card = locked[randi() % locked.size()]
-			SaveService.unlock_card(new_card)
-			_populate_grid()
-		else:
-			print("All cards unlocked!")
+		var new_card = {"t": t, "v": v}
+		SaveService.unlock_card(new_card)
+		_populate_grid()
+		
+		# Explode some particles in the center of screen (Gacha Feel)
+		var p = GPUParticles2D.new()
+		var mat = ParticleProcessMaterial.new()
+		mat.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
+		mat.emission_sphere_radius = 50.0
+		mat.spread = 180.0
+		mat.initial_velocity_min = 200.0
+		mat.initial_velocity_max = 400.0
+		mat.scale_min = 5.0
+		mat.scale_max = 10.0
+		mat.color = Color(1.0, 0.8, 0.2)
+		p.process_material = mat
+		p.one_shot = true
+		p.explosiveness = 0.9
+		p.amount = 50
+		p.position = Vector2(360, 640) # Center of 720x1280
+		add_child(p)
+		p.emitting = true
 	else:
 		AudioManager.play_defeat() # Not enough coins

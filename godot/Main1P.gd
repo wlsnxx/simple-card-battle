@@ -35,26 +35,35 @@ func isLocalTurn():
 	return localTurn
 		
 func initializeDeck():
-	var tmp = []
-	for e in ["a","e","f","w"]:
-		for i in range(2, 10):
-			var c = preload("res://Card/Card.tscn").instantiate()
-			c.cardValue = i
-			c.cardType = Card.Type.A if e == "a" else Card.Type.E if e == "e" else Card.Type.F if e == "f" else Card.Type.W	
-			c.initialize()
-			tmp.append(c)
-	
-	var cx = preload("res://Card/Card.tscn").instantiate()
-	cx.cardValue = 10
-	cx.cardType = Card.Type.X
-	cx.initialize()
-	tmp.append(cx)
-	
+	# LOCAL PLAYER (Uses unlocked cards)
+	var my_cards = SaveService.get_unlocked_cards()
+	var local_tmp = []
+	for c_data in my_cards:
+		var c = preload("res://Card/Card.tscn").instantiate()
+		c.cardValue = c_data["v"]
+		c.cardType = c_data["t"]
+		c.initialize()
+		local_tmp.append(c)
 		
-	tmp.shuffle()
+	# ENEMY PLAYER (Random Deck based on level/difficulty, or same size)
+	var enemy_tmp = []
+	for i in range(my_cards.size()):
+		var t = randi() % 5
+		var v = (randi() % 9) + 2 if t < 4 else 10
+		var c = preload("res://Card/Card.tscn").instantiate()
+		c.cardValue = v
+		c.cardType = t
+		c.initialize()
+		enemy_tmp.append(c)
+		
+	local_tmp.shuffle()
+	enemy_tmp.shuffle()
 	
-	for i in tmp:
-		deck.add_child(i)
+	# Add Enemy cards first, then Player cards
+	for c in enemy_tmp:
+		deck.add_child(c)
+	for c in local_tmp:
+		deck.add_child(c)
 			
 func _on_Button_pressed():
 	get_tree().change_scene_to_file('res://Main.tscn')
@@ -63,8 +72,9 @@ func deckToLocation(playerCardsLocation):
 	if deck.get_children().size() > 0:
 		var locations = playerCardsLocation.get_children()
 		for l in locations:
-			if l.get_children().size() == 0:
-				var c = deck.get_child(deck.get_children().size() - 1)
+			if l.get_children().size() == 0 and deck.get_children().size() > 0:
+				var idx = 0 if playerCardsLocation.name == "EnemyCardsLocation" else (deck.get_children().size() - 1)
+				var c = deck.get_child(idx)
 				deck.remove_child(c)
 				get_node("CardCount/Label").text = "%02d" % deck.get_children().size();
 				var tex = c.get_node("Image").texture

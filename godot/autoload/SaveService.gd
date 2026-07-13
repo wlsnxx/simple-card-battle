@@ -24,7 +24,13 @@ func _default_data() -> Dictionary:
 	return {
 		"version": SAVE_VERSION,
 		"coins": 0,
-		"unlocked_cards": ["one", "two"], # Starting cards
+		"unlocked_cards": [
+			{"t": 0, "v": 2}, # Air 2
+			{"t": 1, "v": 2}, # Earth 2
+			{"t": 2, "v": 2}, # Fire 2
+			{"t": 3, "v": 2}, # Water 2
+			{"t": 0, "v": 3}  # Air 3
+		],
 		"config": {
 			"first_run": true,
 			"vibration": true,
@@ -42,14 +48,19 @@ func add_coins(amount: int) -> void:
 	save_all()
 
 func get_unlocked_cards() -> Array:
-	return data.get("unlocked_cards", ["one", "two"])
+	return data.get("unlocked_cards", [
+		{"t": 0, "v": 2},
+		{"t": 1, "v": 2},
+		{"t": 2, "v": 2},
+		{"t": 3, "v": 2},
+		{"t": 0, "v": 3}
+	])
 
-func unlock_card(card_id: String) -> void:
+func unlock_card(card_data: Dictionary) -> void:
 	var cards = get_unlocked_cards()
-	if not cards.has(card_id):
-		cards.append(card_id)
-		data["unlocked_cards"] = cards
-		save_all()
+	cards.append(card_data)
+	data["unlocked_cards"] = cards
+	save_all()
 
 
 func load_all() -> void:
