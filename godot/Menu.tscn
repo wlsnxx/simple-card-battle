@@ -8,7 +8,7 @@
 script = ExtResource( 2 )
 
 [node name="Background" parent="." instance=ExtResource( 3 )]
-position = Vector2( 361, 639 )
+position = Vector2( 640, 360 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_left = 0.5

@@ -4,12 +4,13 @@
 [ext_resource path="res://assets/background.png" type="Texture2D" id=3]
 
 [node name="Background" type="Node2D"]
-position = Vector2( 360, 640 )
+position = Vector2( 640, 360 )
 script = ExtResource( 1 )
 
 [node name="BgColor" type="Polygon2D" parent="."]
 color = Color( 0.0980392, 0.45098, 0.682353, 1 )
-polygon = PackedVector2Array( -360, -640, 360, -640, 360, 640, -360, 640 )
+polygon = PackedVector2Array( -640, -360, 640, -360, 640, 360, -640, 360 )
 
 [node name="BgFilter" type="Sprite2D" parent="."]
+scale = Vector2( 1.8, 1 )
 texture = ExtResource( 3 )
