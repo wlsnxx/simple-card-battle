@@ -6,8 +6,8 @@ signal cards_on_place
 
 var localTurn
 
-var localScore = 0
-var remoteScore = 0
+var hpLocal = 20
+var hpRemote = 20
 
 @onready var enemyCardsLocation = $EnemyCardsLocation
 @onready var myCardsLocation = $MyCardsLocation
@@ -142,7 +142,7 @@ func _on_PopupEnd_visibility_changed():
 	bg_rect.add_child(btn_again)
 	bg_rect.add_child(btn_menu)
 	
-	if remoteScore > localScore:
+	if hpLocal <= 0 and hpRemote > 0:
 		end_label.text = "DERROTA!"
 		end_label.modulate = Color(1.0, 0.3, 0.3)
 		AudioManager.play_defeat()
@@ -159,8 +159,8 @@ func _on_PopupEnd_visibility_changed():
 	tween.tween_property(end_label, "scale", Vector2(1.2, 1.2), 0.5).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(bg_rect, "color", Color(0, 0, 0, 0.8), 0.5)
 	
-	remoteScore = 0
-	localScore = 0
+	hpRemote = 0
+	hpLocal = 0
 	
 @rpc func setLocalTurn(value):
 	if Network.networkId <= 1:
@@ -204,7 +204,6 @@ func verifyWinner():
 		card2 = get_node("CardPlace/Collision/Place2").get_child(0)
 	
 	if(card1 == null or card2 ==null):
-		rpc("setLocalTurn", not isLocalTurn())
 		setLocalTurn(not isLocalTurn())
 		return
 		
@@ -216,32 +215,21 @@ func verifyWinner():
 	var cvex1 = 0
 	var cvex2 = 0
 	
-	if cv1 == 5:
-		if typeAffinityMax(card1.cardType, card2.cardType):
-			cvex1 += 3
-		elif typeAffinityMin(card1.cardType, card2.cardType):
-			cvex1 += 2
-	else:
-		if typeAffinityMax(card1.cardType, card2.cardType):
-			cvex1 += 2
-		elif typeAffinityMin(card1.cardType, card2.cardType):
-			cvex1 += 1
-
-	if cv2 == 5:
-		if typeAffinityMax(card2.cardType, card1.cardType):
-			cvex2 += 3
-		elif typeAffinityMin(card2.cardType, card1.cardType):
-			cvex2 += 2
-	else:
-		if typeAffinityMax(card2.cardType, card1.cardType):
-			cvex2 += 2
-		elif typeAffinityMin(card2.cardType, card1.cardType):
-			cvex2 += 1
+	if card2.cardType != Card.Type.A:
+		if cv1 == 5:
+			if typeAffinityMax(card1.cardType, card2.cardType): cvex1 += 3
+			elif typeAffinityMin(card1.cardType, card2.cardType): cvex1 += 2
+		elif cv1 == 6:
+			if typeAffinityMax(card1.cardType, card2.cardType): cvex1 += 2
+			elif typeAffinityMin(card1.cardType, card2.cardType): cvex1 += 1
 	
-	
-	print("=================")
-	print(str(cv1) +"+"+ str(cvex1))
-	print(str(cv2) +"+"+ str(cvex2))
+	if card1.cardType != Card.Type.A:
+		if cv2 == 5:
+			if typeAffinityMax(card2.cardType, card1.cardType): cvex2 += 3
+			elif typeAffinityMin(card2.cardType, card1.cardType): cvex2 += 2
+		elif cv2 == 6:
+			if typeAffinityMax(card2.cardType, card1.cardType): cvex2 += 2
+			elif typeAffinityMin(card2.cardType, card1.cardType): cvex2 += 1
 	
 	var cardToAnimate
 	var winner
@@ -257,32 +245,46 @@ func verifyWinner():
 		v = 1
 	elif (cv1 + cvex1) > (cv2 + cvex2):
 		cardToAnimate = card1
-		v = abs(cv1+cvex1) - abs(cv2+cvex2)
+		v = abs(cv1+cvex1)
 		winner = card1.cardOwner
 	else:
 		cardToAnimate = card2
-		v = abs(cv2+cvex2) - abs(cv1+cvex1)
+		v = abs(cv2+cvex2)
 		winner = card2.cardOwner
 	
-	cardToAnimate.animateBattle(card2 if card1 == cardToAnimate else card1)
+	var winning_card = card1 if winner == card1.cardOwner else card2
+	var losing_card = card2 if winner == card1.cardOwner else card1
+	
+	# Abilities
+	# Fire (F) -> +1 Damage
+	if winning_card.cardType == Card.Type.F:
+		v += 1
+	
+	# Earth (E) -> Takes half damage
+	if losing_card.cardType == Card.Type.E:
+		v = max(1, v / 2)
+		
+	cardToAnimate.animateBattle(losing_card)
 	await cardToAnimate.animation_battle_ended
-
-	if winner == Card.Owner.ME:  localScore += v
-	else:  remoteScore += v
 	
-	get_node("UI/Local/Score").text = "%02d" %  localScore
-	get_node("UI/Remote/Score").text = "%02d" % remoteScore
+	# Apply Damage
+	if winner == Card.Owner.ME:  hpRemote -= v
+	else:  hpLocal -= v
+	
+	# Water (W) -> Heals winner +2
+	if winning_card.cardType == Card.Type.W:
+		if winner == Card.Owner.ME: hpLocal = min(20, hpLocal + 2)
+		else: hpRemote = min(20, hpRemote + 2)
+	
+	get_node("UI/Local/Score").text = "HP: %02d" %  hpLocal
+	get_node("UI/Remote/Score").text = "HP: %02d" % hpRemote
 	
 	
-	if !haveCards() || localScore >= Game.MAX_SCORE || remoteScore >=  Game.MAX_SCORE:
+	if !haveCards() || hpLocal <= 0 || hpRemote <= 0:
 		get_node("PopupEnd").popup()
 	else:
-		if winner == Card.Owner.ME: 
-			rpc("setLocalTurn", true)
-			setLocalTurn(true)
-		else: 
-			rpc("setLocalTurn", false)
-			setLocalTurn(false)
+		if winner == Card.Owner.ME: setLocalTurn(true)
+		else: setLocalTurn(false)
 		cleanPlaces()
 		
 func cleanPlaces():

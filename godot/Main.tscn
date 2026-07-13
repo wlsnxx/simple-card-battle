@@ -121,10 +121,10 @@ theme = ExtResource( 4 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 50.0
-offset_right = 136.0
+offset_right = 160.0
 offset_bottom = 73.0
 theme = ExtResource( 4 )
-text = "00"
+text = "HP: 20"
 
 [node name="PlayerName" type="Label" parent="UI/Local"]
 anchor_left = 0.5
@@ -156,12 +156,12 @@ theme = ExtResource( 4 )
 [node name="Score" type="Label" parent="UI/Remote"]
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 580.0
+offset_left = 540.0
 offset_top = 10.0
 offset_right = 666.0
 offset_bottom = 83.0
 theme = ExtResource( 4 )
-text = "00"
+text = "HP: 20"
 
 [node name="PlayerName" type="Label" parent="UI/Remote"]
 anchor_left = 0.5
