@@ -20,6 +20,13 @@ func _ready():
 	coins_panel.position = Vector2(get_viewport().size.x - 200, 20)
 	coins_panel.size = Vector2(180, 50)
 	
+	# Inject Collection Button
+	var btn_collection = Button.new()
+	btn_collection.text = "Minha Coleção"
+	btn_collection.custom_minimum_size = Vector2(0, 100)
+	btn_collection.pressed.connect(func(): Navigator.change_scene(SceneRoutes.COLLECTION))
+	$VBoxContainer.add_child(btn_collection)
+	
 	var canvas_layer = CanvasLayer.new()
 	canvas_layer.add_child(coins_panel)
 	add_child(canvas_layer)

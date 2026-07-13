@@ -8,10 +8,12 @@ extends Node
 
 const HOME: String = "res://Menu.tscn"
 const GAME: String = "res://Main.tscn"
+const COLLECTION: String = "res://Collection.tscn"
 
 ## tela (nome usado no --goto) → cena. Entradas podem apontar para a mesma
 ## cena com setup diferente — trate casos especiais no DebugCLI.
 const DEBUG_SCREENS: Dictionary = {
 	"home": HOME,
 	"game": GAME,
+	"collection": COLLECTION,
 }

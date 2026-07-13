@@ -49,7 +49,11 @@ func _goto_screen(screen: String, args: PackedStringArray) -> void:
 		get_tree().quit(1)
 		return
 	print("[DebugCLI] --goto %s" % screen)
-	Navigator.change_scene(path)
+	match screen:
+		"home": Navigator.change_scene(SceneRoutes.HOME)
+		"game": Navigator.change_scene(SceneRoutes.GAME)
+		"collection": Navigator.change_scene(SceneRoutes.COLLECTION)
+		_: Navigator.change_scene(path)
 	if args.has("--screenshot-early"):
 		_take_screenshot(SCREENSHOT_PATH, 60)
 	elif args.has("--screenshot"):
