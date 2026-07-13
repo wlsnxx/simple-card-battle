@@ -87,8 +87,41 @@ func deckToLocation(playerCardsLocation):
 		emit_signal("cards_on_hand")
 
 func _on_PopupEnd_visibility_changed():
+	var end_label = $PopupEnd/ColorRect/Label
+	var bg_rect = $PopupEnd/ColorRect
+	
+	# Create dynamic buttons
+	var btn_again = Button.new()
+	btn_again.text = "Jogar Novamente"
+	btn_again.size = Vector2(200, 60)
+	btn_again.position = Vector2(bg_rect.size.x / 2 - 100, bg_rect.size.y / 2 + 50)
+	btn_again.pressed.connect(func(): get_tree().reload_current_scene())
+	
+	var btn_menu = Button.new()
+	btn_menu.text = "Voltar ao Menu"
+	btn_menu.size = Vector2(200, 60)
+	btn_menu.position = Vector2(bg_rect.size.x / 2 - 100, bg_rect.size.y / 2 + 130)
+	btn_menu.pressed.connect(func(): Navigator.change_scene(SceneRoutes.HOME))
+	
+	bg_rect.add_child(btn_again)
+	bg_rect.add_child(btn_menu)
+	
 	if Game.remoteScore > Game.localScore:
-		$PopupEnd/ColorRect/Label.text = "Você Perdeu!"
+		end_label.text = "DERROTA!"
+		end_label.modulate = Color(1.0, 0.3, 0.3)
+		AudioManager.play_defeat()
+	else:
+		end_label.text = "VITÓRIA! +50 Moedas"
+		end_label.modulate = Color(0.3, 1.0, 0.3)
+		AudioManager.play_victory()
+		SaveService.add_coins(50)
+		
+	# Animation
+	end_label.pivot_offset = end_label.size / 2.0
+	end_label.scale = Vector2.ZERO
+	var tween = create_tween().set_parallel(true)
+	tween.tween_property(end_label, "scale", Vector2(1.2, 1.2), 0.5).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(bg_rect, "color", Color(0, 0, 0, 0.8), 0.5)
 	
 	Game.remoteScore = 0
 	Game.localScore = 0
@@ -243,6 +276,7 @@ func _on_BtnMenu_pressed():
 	Navigator.change_scene(SceneRoutes.HOME)
 
 func _play_battle_vfx():
+	AudioManager.play_impact()
 	var shake_tween = create_tween()
 	for i in range(5):
 		shake_tween.tween_property(_cam, "offset", Vector2(randf_range(-10, 10), randf_range(-10, 10)), 0.05)

@@ -23,6 +23,7 @@ func _ready() -> void:
 func _default_data() -> Dictionary:
 	return {
 		"version": SAVE_VERSION,
+		"coins": 0,
 		"config": {
 			"first_run": true,
 			"vibration": true,
@@ -30,6 +31,14 @@ func _default_data() -> Dictionary:
 			"sfx": true,
 		},
 	}
+
+func get_coins() -> int:
+	return int(data.get("coins", 0))
+
+func add_coins(amount: int) -> void:
+	var current = get_coins()
+	data["coins"] = current + amount
+	save_all()
 
 
 func load_all() -> void:

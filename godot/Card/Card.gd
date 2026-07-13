@@ -29,6 +29,7 @@ func _ready():
 	mouse_exited.connect(_on_mouse_exited)
 
 func _on_mouse_entered():
+	AudioManager.play_hover()
 	if get_parent() and get_parent().get_parent() and get_parent().get_parent().name == "MyCardsLocation":
 		if hover_tween: hover_tween.kill()
 		hover_tween = create_tween().set_parallel(true)

@@ -29,7 +29,7 @@ Navigator="*res://autoload/Navigator.gd"
 AutoplayBot="*res://autoload/AutoplayBot.gd"
 StressTestRunner="*res://autoload/StressTestRunner.gd"
 DebugCLI="*res://autoload/DebugCLI.gd"
-
+AudioManager="*res://autoload/AudioManager.gd"
 
 [display]
 
