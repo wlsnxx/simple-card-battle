@@ -1,0 +1,67 @@
+# === Project Specific ===
+bin/
+# Exceção: AARs de plugins Android vendorados (lição do fingerdot: um "bin/"
+# genérico engole addons/*/bin e o export mobile quebra silenciosamente)
+!godot/addons/*/bin/
+!godot/addons/*/bin/**
+.vscode/
+.worktrees/
+
+# === Claude Code Local ===
+.claude/settings.local.json
+/CLAUDE.local.md
+
+# === Build Output ===
+build/
+builds/
+obj/
+out/
+dist/
+*.exe
+*.dll
+*.so
+*.dylib
+*.app
+
+# === Engine: Godot ===
+.godot/
+*.translation
+# Template de build gradle (instalado localmente/CI, não versionado)
+godot/android/
+
+# === MCP server local (clone/env — só o addon é versionado) ===
+tools/godot-mcp-enhanced/
+
+# === IDE and Editor ===
+.vs/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# === Temporary and Cache ===
+*.tmp
+*.temp
+*.cache
+*.log
+__pycache__/
+*.pyc
+node_modules/
+
+# === Archives ===
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# === Secrets and Environment ===
+*.keystore
+.env
+.env.local
+*.pem
+*.key
+credentials.json
+secrets.json

@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/card_place2.png" type="Texture2D" id=1]
+
+[sub_resource type="ImageTexture" id=1]
+
+flags = 0
+flags = 0
+size = Vector2( 16, 16 )
+
+[node name="CardPlace" type="Area2D"]
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_editor_icon": SubResource( 1 )
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+rotation = -1.49012e-08
+texture = ExtResource( 1 )
+
+[node name="Collision" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array( -180, -135, 180, -135, 180, 135, -180, 135 )
+
+[node name="Place1" type="Marker2D" parent="Collision"]
+position = Vector2( -95, 0 )
+
+[node name="Place2" type="Marker2D" parent="Collision"]
+position = Vector2( 95, 0 )
+

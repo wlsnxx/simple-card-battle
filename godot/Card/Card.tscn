@@ -1,0 +1,275 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Card/Card.gd" type="Script" id=1]
+[ext_resource path="res://Card/back.png" type="Texture2D" id=2]
+[ext_resource path="res://Card/top.png" type="Texture2D" id=3]
+
+[ext_resource path="res://Card/one.png" type="Texture2D" id=5]
+[ext_resource path="res://Card/two.png" type="Texture2D" id=6]
+[ext_resource path="res://assets/Elements/all.png" type="Texture2D" id=7]
+[ext_resource path="res://Card/back_card.png" type="Texture2D" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+extents = Vector2( 88.1341, 132.771 )
+
+[sub_resource type="Animation" id=2]
+
+tracks/0/type = "value"
+tracks/0/path = NodePath("elementAnimation:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array( 0, 0.3, 0.6 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("elementAnimation:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array( 0, 0.3, 0.6 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 2.5, 2.5 ), Vector2( 5, 5 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("elementAnimation:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array( 0, 0.3 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 195, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PackedFloat32Array( 0, 0.3, 0.6 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+
+tracks/0/type = "value"
+tracks/0/path = NodePath("elementAnimation:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array( 0, 0.3, 0.6 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("elementAnimation:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array( 0, 0.3, 0.6 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 2.5, 2.5 ), Vector2( 5, 5 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("elementAnimation:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array( 0, 0.3 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -195, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PackedFloat32Array( 0, 0.3, 0.6 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+
+length = 0.1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Image:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array( 0, 0.1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array( 0, 0.1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.01, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array( 0.7, 1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array( 0.5, 1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 720.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array( 0.4, 1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.5, 0.5 ) ]
+}
+
+[sub_resource type="FontFile" id=6]
+
+size = 70
+use_filter = true
+
+
+[sub_resource type="FontFile" id=7]
+
+size = 25
+use_filter = true
+
+
+[node name="Card" type="Area2D"]
+collision_mask = 2
+script = ExtResource( 1 )
+
+[node name="MoveShape" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource( 1 )
+
+
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/battle = SubResource( 2 )
+anims/battle_left = SubResource( 3 )
+anims/flip = SubResource( 4 )
+anims/hide = SubResource( 5 )
+
+[node name="back" type="Sprite2D" parent="."]
+texture = ExtResource( 2 )
+
+[node name="top" type="Sprite2D" parent="."]
+editor/display_folded = true
+self_modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 0.67923, -65.6101 )
+texture = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="top"]
+offset_left = -21.0
+offset_top = -74.0
+offset_right = 79.0
+offset_bottom = 11.0
+theme_override_fonts/font = SubResource( 6 )
+text = "90"
+align = 2
+
+[node name="one" type="Sprite2D" parent="."]
+editor/display_folded = true
+visible = false
+self_modulate = Color( 0.611765, 0.8, 0.396078, 1 )
+position = Vector2( 34, 110 )
+texture = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="one"]
+offset_left = -44.0
+offset_top = -16.0
+offset_right = -8.0
+offset_bottom = 15.0
+theme_override_fonts/font = SubResource( 7 )
+text = "+1"
+align = 1
+
+[node name="two" type="Sprite2D" parent="."]
+editor/display_folded = true
+visible = false
+self_modulate = Color( 0.866667, 0.172549, 0, 1 )
+position = Vector2( 57.999, 109.986 )
+texture = ExtResource( 6 )
+
+[node name="Label" type="Label" parent="two"]
+offset_left = -21.0
+offset_top = -16.0
+offset_right = 21.0
+offset_bottom = 15.0
+theme_override_fonts/font = SubResource( 7 )
+text = "+2"
+align = 1
+
+[node name="element" type="Sprite2D" parent="."]
+position = Vector2( 0, 40 )
+texture = ExtResource( 7 )
+
+[node name="elementAnimation" type="Sprite2D" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 7 )
+
+[node name="Image" type="Sprite2D" parent="."]
+texture = ExtResource( 8 )
+
+[connection signal="input_event" from="." to="." method="_on_Card_input_event"]

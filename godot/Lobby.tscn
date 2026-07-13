@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Theme.tres" type="Theme" id=1]
+[ext_resource path="res://Lobby.gd" type="Script" id=2]
+[ext_resource path="res://Background.tscn" type="PackedScene" id=3]
+
+[node name="Lobby" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -640.0
+offset_right = 360.0
+offset_bottom = 640.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Background" parent="." instance=ExtResource( 3 )]
+
+[node name="LblIP" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -291.0
+offset_right = 291.0
+offset_bottom = 149.0
+text = "IP: 192.168.1.110"
+align = 1
+
+[node name="Label" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 196.0
+offset_right = 656.0
+offset_bottom = 269.0
+text = "Lobby"
+align = 1
+valign = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -296.0
+offset_top = -264.0
+offset_right = 296.0
+offset_bottom = 396.0
+theme_override_constants/separation = 20
+
+[node name="BtnHost" type="Button" parent="VBoxContainer"]
+offset_right = 592.0
+offset_bottom = 87.0
+theme = ExtResource( 1 )
+text = "Host"
+
+[node name="BtnJoin" type="Button" parent="VBoxContainer"]
+offset_top = 107.0
+offset_right = 592.0
+offset_bottom = 194.0
+theme = ExtResource( 1 )
+text = "Join"
+
+[node name="BtnVoltar" type="Button" parent="VBoxContainer"]
+offset_top = 214.0
+offset_right = 592.0
+offset_bottom = 301.0
+theme = ExtResource( 1 )
+text = "Voltar"
+
+[connection signal="pressed" from="VBoxContainer/BtnHost" to="." method="_on_BtnHost_pressed"]
+[connection signal="pressed" from="VBoxContainer/BtnJoin" to="." method="_on_BtnJoin_pressed"]
+[connection signal="pressed" from="VBoxContainer/BtnVoltar" to="." method="_on_BtnVoltar_pressed"]

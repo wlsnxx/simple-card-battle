@@ -1,0 +1,30 @@
+[gd_resource type="Theme" format=3]
+
+[resource]
+default_font_size = 44
+LabelTitle/base_type = &"Label"
+LabelTitle/font_sizes/font_size = 96
+LabelTitle/colors/font_color = Color(0.94, 0.95, 0.97, 1)
+LabelTitleDark/base_type = &"Label"
+LabelTitleDark/font_sizes/font_size = 96
+LabelTitleDark/colors/font_color = Color(0.08, 0.09, 0.12, 1)
+LabelBody/base_type = &"Label"
+LabelBody/font_sizes/font_size = 56
+LabelBody/colors/font_color = Color(0.94, 0.95, 0.97, 1)
+LabelBodyDark/base_type = &"Label"
+LabelBodyDark/font_sizes/font_size = 56
+LabelBodyDark/colors/font_color = Color(0.08, 0.09, 0.12, 1)
+LabelHUD/base_type = &"Label"
+LabelHUD/font_sizes/font_size = 44
+LabelHUD/colors/font_color = Color(0.94, 0.95, 0.97, 1)
+LabelHUDDark/base_type = &"Label"
+LabelHUDDark/font_sizes/font_size = 44
+LabelHUDDark/colors/font_color = Color(0.08, 0.09, 0.12, 1)
+LabelSmall/base_type = &"Label"
+LabelSmall/font_sizes/font_size = 36
+LabelSmall/colors/font_color = Color(0.72, 0.75, 0.8, 1)
+LabelSmallDark/base_type = &"Label"
+LabelSmallDark/font_sizes/font_size = 36
+LabelSmallDark/colors/font_color = Color(0.25, 0.28, 0.33, 1)
+ButtonPrimary/base_type = &"Button"
+ButtonPrimary/font_sizes/font_size = 48

@@ -1,0 +1,48 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+
+config_version=5
+
+[application]
+
+config/name="GameTemplate"
+config/custom_user_dir_name="GameTemplate"
+run/main_scene="res://scenes/screens/Home.tscn"
+config/features=PackedStringArray("4.6")
+
+[autoload]
+
+SceneRoutes="*res://autoload/SceneRoutes.gd"
+SaveService="*res://autoload/SaveService.gd"
+UiUtils="*res://autoload/UiUtils.gd"
+Events="*res://autoload/Events.gd"
+GameState="*res://autoload/GameState.gd"
+PlatformBridge="*res://autoload/PlatformBridge.gd"
+Navigator="*res://autoload/Navigator.gd"
+AutoplayBot="*res://autoload/AutoplayBot.gd"
+StressTestRunner="*res://autoload/StressTestRunner.gd"
+DebugCLI="*res://autoload/DebugCLI.gd"
+
+[display]
+
+window/size/viewport_width=1080
+window/size/viewport_height=2400
+window/size/window_width_override=540
+window/size/window_height_override=1200
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
+
+[gui]
+
+theme/custom="res://assets/themes/base_theme.tres"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg", "res://addons/godot_mcp_enhanced/plugin.cfg")
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

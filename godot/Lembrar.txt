@@ -1,0 +1,10 @@
+- Colocar no GIT
+- Criar Card generica no codigo (analisar vantagens)
+- Reanalisar criterio de desempate de cartas
+- Animação com pontos nas cartas, quando estiver girando exibir o valor de diferença entre as cartas 
+  e animar essa diferenca até os pontos de player enquanto incrementa o score
+
+- Bonificação (Moedas é a diferenca de pontos, perdedor ganha sempre 1)
+- No caso de empate de pontos criar criterio de desempate e bonificaçao
+
+
