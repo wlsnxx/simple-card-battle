@@ -33,14 +33,14 @@ AudioManager="*res://autoload/AudioManager.gd"
 
 [display]
 
-display/window/size/viewport_width=1280
-display/window/size/viewport_height=720
+display/window/size/viewport_width=720
+display/window/size/viewport_height=1280
 display/window/size/resizable=false
-display/window/size/window_width_override=1280
-display/window/size/window_height_override=720
+display/window/size/window_width_override=360
+display/window/size/window_height_override=640
 display/window/stretch/mode="canvas_items"
 display/window/stretch/aspect="expand"
-display/window/handheld/orientation="landscape"
+display/window/handheld/orientation="portrait"
 mouse_cursor/custom_image="res://hand-up.png"
 mouse_cursor/custom_image_hotspot=Vector2(13, 0)
 
