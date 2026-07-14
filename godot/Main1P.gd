@@ -39,7 +39,7 @@ func isLocalTurn():
 		
 func initializeDeck():
 	# LOCAL PLAYER (Uses unlocked cards)
-	var my_cards = SaveService.get_unlocked_cards()
+	var my_cards = SaveService.get_active_deck_cards()
 	var local_tmp = []
 	for c_data in my_cards:
 		var c = preload("res://Card/Card.tscn").instantiate()

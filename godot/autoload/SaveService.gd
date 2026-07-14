@@ -31,6 +31,7 @@ func _default_data() -> Dictionary:
 			{"t": 3, "v": 2}, # Water 2
 			{"t": 0, "v": 3}  # Air 3
 		],
+		"active_deck": [0, 1, 2, 3, 4],
 		"config": {
 			"first_run": true,
 			"vibration": true,
@@ -61,6 +62,23 @@ func unlock_card(card_data: Dictionary) -> void:
 	cards.append(card_data)
 	data["unlocked_cards"] = cards
 	save_all()
+
+func get_active_deck_indices() -> Array:
+	return data.get("active_deck", [0, 1, 2, 3, 4])
+
+func set_active_deck_indices(indices: Array) -> void:
+	data["active_deck"] = indices
+	save_all()
+	
+func get_active_deck_cards() -> Array:
+	var unlocked = get_unlocked_cards()
+	var indices = get_active_deck_indices()
+	var deck = []
+	for idx in indices:
+		if idx < unlocked.size():
+			deck.append(unlocked[idx])
+	return deck
+
 
 
 func load_all() -> void:

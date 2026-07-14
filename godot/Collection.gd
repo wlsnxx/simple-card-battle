@@ -4,6 +4,9 @@ var ALL_CARDS = ["one", "two", "top", "x10", "back", "back_card"] # All availabl
 var card_size = 150
 var grid: GridContainer
 var coins_label: Label
+var deck_label: Label
+var active_deck: Array
+const MAX_DECK_SIZE = 15
 
 func _ready():
 	var bg = preload("res://Background.tscn").instantiate()
@@ -61,26 +64,49 @@ func _populate_grid():
 		child.queue_free()
 		
 	var unlocked = SaveService.get_unlocked_cards()
-	for card_data in unlocked:
+	for i in range(unlocked.size()):
+		var card_data = unlocked[i]
 		var c = preload("res://Card/Card.tscn").instantiate()
 		c.cardType = card_data["t"]
 		c.cardValue = card_data["v"]
 		
-		# We must wrap it in a Control node to fit the GridContainer properly
 		var wrapper = Control.new()
 		wrapper.custom_minimum_size = Vector2(160, 240)
+		wrapper.gui_input.connect(_on_card_gui_input.bind(i, c))
+		wrapper.mouse_filter = Control.MOUSE_FILTER_STOP
 		
-		c.position = Vector2(80, 120) # Center inside wrapper
-		c.scale = Vector2(0.8, 0.8) # Scale down for collection
+		c.position = Vector2(80, 120)
+		c.scale = Vector2(0.8, 0.8)
 		c.initialize()
-		
-		# Disable input on the collection card
 		c.set_process_input(false)
 		if c.has_node("MoveShape"):
 			c.get_node("MoveShape").disabled = true
 			
+		if active_deck.has(i):
+			c.modulate = Color(1, 1, 1, 1)
+		else:
+			c.modulate = Color(0.4, 0.4, 0.4, 1)
+			
 		wrapper.add_child(c)
 		grid.add_child(wrapper)
+		
+func _on_card_gui_input(event: InputEvent, idx: int, card_node: Node2D):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if active_deck.has(idx):
+			active_deck.erase(idx)
+			card_node.modulate = Color(0.4, 0.4, 0.4, 1)
+			AudioManager.play_impact()
+		else:
+			if active_deck.size() < MAX_DECK_SIZE:
+				active_deck.append(idx)
+				card_node.modulate = Color(1, 1, 1, 1)
+				AudioManager.play_impact()
+			else:
+				AudioManager.play_defeat()
+		
+		SaveService.set_active_deck_indices(active_deck)
+		deck_label.text = "Deck: " + str(active_deck.size()) + "/" + str(MAX_DECK_SIZE)
+
 
 func _on_buy_pressed():
 	if SaveService.get_coins() >= 100:
